@@ -9,15 +9,18 @@ import (
 func handler(w http.ResponseWriter, r *http.Request) {
 	switch {
 	case r.URL.Path == "/hello" && r.Method == http.MethodGet:
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(map[string]string{"message": "world"})
 
 	case strings.HasPrefix(r.URL.Path, "/hello/") && r.Method == http.MethodPost:
 		name := strings.TrimPrefix(r.URL.Path, "/hello/")
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(map[string]string{"message": "Hi, " + name + "."})
 
 	case r.URL.Path == "/test" && r.Method == http.MethodGet:
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(map[string]string{"message": "test is successful"})
 
@@ -28,6 +31,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 			w.Write([]byte("Bad Request"))
 			return
 		}
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode(map[string]string{"message": msg})
 
